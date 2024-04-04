@@ -1,6 +1,7 @@
-# Dockerfile for creating a fat container with many sys admin tools
+# Dockerfile to host tftp server, 
+# for machines that run container but don't have the binary
 
-# Dockerfile github: https://github.com/tin6150/perf_tools/blob/master/Dockerfile
+# modeled after  Dockerfile github: https://github.com/tin6150/perf_tools/blob/master/Dockerfile
 
 
 
@@ -11,7 +12,7 @@ MAINTAINER Tin (at) LBL.gov
 
 ARG TZ="America/Los_Angeles"
 
-COPY . /perf_tools
+COPY . /gitrepo
 
 RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
     echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
@@ -20,8 +21,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_                                             
     hostname | tee -a       _TOP_DIR_OF_CONTAINER_                                    ;\
     date     | tee -a       _TOP_DIR_OF_CONTAINER_                                    ;\
     touch /THIS_IS_INSIDE_DOCKER_CONTAINER                                            ;\
-    bash /perf_tools/install_tools_rocky9.sh  | tee -a install_tools.log              ;\
-    echo $? > install_tools.exit.code                                                 ;\
+    #bash /gitrepo/install_tools_rocky9.sh  | tee -a install_tools.log              ;\
+    #echo $? > install_tools.exit.code                                                 ;\
     cd      / 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
@@ -41,7 +42,6 @@ RUN     cd / \
 # ENV TZ could be changed/overwritten by container's /etc/csh.cshrc
 ENV TEST_DOCKER_ENV_1   Can_use_ADD_to_make_ENV_avail_in_build_process
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
-ENV DOCKER_perf_tools "fat container rocky 9"
 
 ###ENTRYPOINT [ "/usr/bin/zsh" ]
 ENTRYPOINT [ "/usr/bin/bash", "-l", "-i" ]
