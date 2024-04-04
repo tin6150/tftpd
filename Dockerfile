@@ -21,8 +21,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_                                             
     hostname | tee -a       _TOP_DIR_OF_CONTAINER_                                    ;\
     date     | tee -a       _TOP_DIR_OF_CONTAINER_                                    ;\
     touch /THIS_IS_INSIDE_DOCKER_CONTAINER                                            ;\
-    #bash /gitrepo/install_tools_rocky9.sh  | tee -a install_tools.log              ;\
-    #echo $? > install_tools.exit.code                                                 ;\
+    bash /gitrepo/install_tools_rocky9.sh  | tee -a install_tools.log              ;\
+    echo $? > install_tools.exit.code                                                 ;\
     cd      / 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
