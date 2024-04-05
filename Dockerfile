@@ -4,7 +4,8 @@
 # modeled after  Dockerfile github: https://github.com/tin6150/perf_tools/blob/master/Dockerfile
 
 
-FROM rockylinux:9.3
+#FROM rockylinux:9.3
+FROM centos:7.9.2009
 MAINTAINER Tin (at) LBL.gov
 
 ARG TZ="America/Los_Angeles"
@@ -23,23 +24,16 @@ RUN touch    _TOP_DIR_OF_CONTAINER_                                             
     date     | tee -a       _TOP_DIR_OF_CONTAINER_                                    ;\
     touch /THIS_IS_INSIDE_DOCKER_CONTAINER                                            ;\
     # mkdir /tftpboot                                                                   ;\
-    bash  /gitrepo/install_tools_rocky9.sh  | tee -a install_tools.log                ;\
+    bash  /gitrepo/install_tools.sh  | tee -a install_tools.log                ;\
     echo  $? > install_tools.exit.code                                                ;\
     cd      / 
 
 COPY ./tftpboot  /tftpboot
 
-RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
-    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
-    echo "mousepad editor layer to check size    " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
-    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
-    yum -y install mousepad  | tee -a yum_install.log  ;\
-    cd      / 
-
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile. 2024.0405 /tftpboot  "     >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile. 2024.0405 /tftpboot c7"     >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles  
