@@ -29,12 +29,12 @@ RUN touch    _TOP_DIR_OF_CONTAINER_                                             
 
 COPY ./tftpboot  /tftpboot
 
-RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
-    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
-    echo "mousepad editor layer to check size    " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
-    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
-    yum -y install mousepad  | tee -a yum_install.log  ;\
-    cd      / 
+#RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
+#    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
+#    echo "mousepad editor layer to check size    " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
+#    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
+#    yum -y install mousepad  | tee -a yum_install.log  ;\
+#    cd      / 
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
