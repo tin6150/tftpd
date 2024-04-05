@@ -1,0 +1,2 @@
+this is file inside the container
+tftpboot/hello_world.txt

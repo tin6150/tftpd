@@ -12,6 +12,10 @@ MAINTAINER Tin (at) LBL.gov
 
 ARG TZ="America/Los_Angeles"
 
+ENV TFTPD_BIND_ADDRESS="0.0.0.0:69"
+ENV TFTPD_EXTRA_ARGS=""
+
+# destination dir will be created automatically
 COPY . /gitrepo
 
 RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
@@ -24,6 +28,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_                                             
     bash /gitrepo/install_tools_rocky9.sh  | tee -a install_tools.log              ;\
     echo $? > install_tools.exit.code                                                 ;\
     cd      / 
+
 
 RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
     echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
@@ -43,6 +48,16 @@ RUN     cd / \
 ENV TEST_DOCKER_ENV_1   Can_use_ADD_to_make_ENV_avail_in_build_process
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 
+
+EXPOSE 69/udp 
+
+# VOLUME /var/lib/tftpboot 
+# VOLUME /tftpboot 
+
+CMD set -eu ;\
+    #[ -d /tftpboot/boot/root ] && cp -af /tftpboot/boot/root/* /tftpboot ;\
+    exec /usr/sbin/in.tftpd -L -vvv -u ftp --secure --address "$TFTPD_BIND_ADDRESS" $TFTPD_EXTRA_ARGS /tftpboot
+
 ###ENTRYPOINT [ "/usr/bin/zsh" ]
-ENTRYPOINT [ "/usr/bin/bash", "-l", "-i" ]
+#ENTRYPOINT [ "/usr/bin/bash", "-l", "-i" ]
 # if no defined ENTRYPOINT, default to bash inside the container
