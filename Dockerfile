@@ -29,6 +29,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_                                             
 
 COPY ./tftpboot  /tftpboot
 
+# mousepad here is 473 MB, but this had no XFCE libs to start with
 #RUN touch    _TOP_DIR_OF_CONTAINER_                                                   ;\
 #    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
 #    echo "mousepad editor layer to check size    " | tee -a _TOP_DIR_OF_CONTAINER_    ;\
@@ -55,8 +56,12 @@ EXPOSE 69/udp
 
 CMD set -eu ;\
     #[ -d /tftpboot/boot/root ] && cp -af /tftpboot/boot/root/* /tftpboot ;\
-    exec /usr/sbin/in.tftpd -L -vvv -u ftp --secure --address "$TFTPD_BIND_ADDRESS" $TFTPD_EXTRA_ARGS /tftpboot
+    #exec /usr/sbin/in.tftpd -L -vvv -u ftp --secure --address "$TFTPD_BIND_ADDRESS" $TFTPD_EXTRA_ARGS /tftpboot
+     exec /usr/sbin/in.tftpd -L -vvv -u ftp          --address "$TFTPD_BIND_ADDRESS" $TFTPD_EXTRA_ARGS /tftpboot
+
+# docker run -it -p 69:69/udp -v /global/sysbase/tftp/tftpboot:/tftpboot   registry.greta.local:443/tftpd:main   # this work, don't req full path from client
 
 ###ENTRYPOINT [ "/usr/bin/zsh" ]
+#ENTRYPOINT [ "/usr/bin/bash", "-l", "-i" ]
 #ENTRYPOINT [ "/usr/bin/bash", "-l", "-i" ]
 # if no defined ENTRYPOINT, default to bash inside the container

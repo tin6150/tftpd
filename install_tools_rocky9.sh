@@ -28,6 +28,7 @@ dnf -y install bash
 
 dnf -y install tftp
 dnf -y install tftp-server
+dnf -y install nc             # for troubleshooting, part of nmap-ncat
 
 
 date            | tee -a /_install_tool_sh_
